@@ -5,13 +5,13 @@ import {
   Column,
 } from 'typeorm';
 
-@Entity('idea')
+@Entity('ideas')
 export class IdeaEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @CreateDateColumn()
-  CreatedAt: Date;
+  createdAt: Date;
 
   @Column('text')
   title: string;
