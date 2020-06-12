@@ -6,9 +6,10 @@ import {
   Delete,
   Body,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { IdeasService } from './ideas.service';
-import { IdeasCreateResponseDto } from './ideas.interfaces';
+import { IdeasCreateResponseDto, IdeasReponseDto } from './ideas.interfaces';
 
 @Controller('ideas')
 export class IdeasController {
@@ -24,22 +25,21 @@ export class IdeasController {
     return this.ideasService.createIdea(body);
   }
 
-  @Get(':id')
-  getIdea(@Param() id: string) {
-    console.log(id);
+  @Get('/:id')
+  getIdea(@Param('id', ParseIntPipe) id: number): Promise<IdeasReponseDto> {
     return this.ideasService.getIdea(id);
   }
 
   @Put(':id')
   updateIdea(
-    @Param() id: string,
+    @Param() id: number,
     @Body() body: Partial<IdeasCreateResponseDto>,
   ) {
     return this.ideasService.updateIdea(id, body);
   }
 
   @Delete(':id')
-  deleteIdea(@Param() id: string) {
+  deleteIdea(@Param() id: number) {
     return this.ideasService.deleteIdea(id);
   }
 }
