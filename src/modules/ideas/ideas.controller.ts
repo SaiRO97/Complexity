@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { IdeasService } from './ideas.service';
 import { IdeasCreateResponseDto, IdeasReponseDto } from './ideas.interfaces';
@@ -26,13 +27,13 @@ export class IdeasController {
   }
 
   @Get('/:id')
-  getIdea(@Param('id', ParseIntPipe) id: number): Promise<IdeasReponseDto> {
+  getIdea(@Param('id', ParseUUIDPipe) id: number): Promise<IdeasReponseDto> {
     return this.ideasService.getIdea(id);
   }
 
   @Put('/:id')
   updateIdea(
-    @Param() id: number,
+    @Param('id', ParseUUIDPipe) id: number,
     @Body() body: Partial<IdeasCreateResponseDto>,
   ): Promise<IdeasReponseDto> {
     return this.ideasService.updateIdea(id, body);
@@ -40,7 +41,7 @@ export class IdeasController {
 
   @Delete('/:id')
   deleteIdea(
-    @Param() id: number,
+    @Param('id', ParseUUIDPipe) id: number,
   ): Promise<{
     deleted: boolean;
   }> {
