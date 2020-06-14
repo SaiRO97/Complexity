@@ -21,16 +21,16 @@ export class IdeasService {
     return idea;
   }
 
-  async getIdea(id: string) {
+  async getIdea(id: number) {
     return await this.ideasRepository.findOne({ where: { id } });
   }
 
-  async updateIdea(id: string, body: Partial<IdeasCreateResponseDto>) {
+  async updateIdea(id: number, body: Partial<IdeasCreateResponseDto>) {
     await this.ideasRepository.update({ id }, body);
     return await this.ideasRepository.findOne({ id });
   }
 
-  async deleteIdea(id: string) {
+  async deleteIdea(id: number) {
     await this.ideasRepository.delete({ id });
     return {
       deleted: true,
