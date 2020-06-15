@@ -2,7 +2,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  ArgumentsHost,
+  ArgumentsHost, Logger,
 } from '@nestjs/common';
 
 @Catch()
@@ -11,9 +11,17 @@ export class HttpErrorFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest();
     const response = ctx.getResponse();
+    const status = exception.getStatus();
+    const error = {
+      code: status,
+      timeStamp: new Date().toLocaleDateString(),
+      path: request.url,
+      method: request.method,
+      message: exception.message || null
+    }
 
-    response.status(404).json({
-      found: false,
-    });
+    Logger.error(`path:${request.url} , method: ${request.method}, message: ${exception.message}`, exception.stack, 'ExceptionFilter')
+
+    response.status(status).json(error);
   }
 }
