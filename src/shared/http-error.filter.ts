@@ -21,7 +21,6 @@ export class HttpErrorFilter implements ExceptionFilter {
     }
 
     Logger.error(`path:${request.url} , method: ${request.method}, message: ${exception.message}`, exception.stack, 'ExceptionFilter')
-
     response.status(status).json(error);
   }
 }
