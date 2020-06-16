@@ -6,18 +6,17 @@ import {
   Delete,
   Body,
   Param,
-  ParseIntPipe,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { IdeasService } from './ideas.service';
-import { IdeasCreateResponseDto, IdeasReponseDto } from './ideas.interfaces';
+import { IdeasCreateResponseDto, IdeasResponseDto } from './ideas.interfaces';
 
 @Controller('ideas')
 export class IdeasController {
   constructor(private ideasService: IdeasService) {}
 
   @Get()
-  getAll(): Promise<IdeasReponseDto[]> {
+  getAll(): Promise<IdeasResponseDto[]> {
     return this.ideasService.getAll();
   }
 
@@ -27,7 +26,7 @@ export class IdeasController {
   }
 
   @Get('/:id')
-  getIdea(@Param('id', ParseUUIDPipe) id: number): Promise<IdeasReponseDto> {
+  getIdea(@Param('id', ParseUUIDPipe) id: number): Promise<IdeasResponseDto> {
     return this.ideasService.getIdea(id);
   }
 
@@ -35,14 +34,14 @@ export class IdeasController {
   updateIdea(
     @Param('id', ParseUUIDPipe) id: number,
     @Body() body: Partial<IdeasCreateResponseDto>,
-  ): Promise<IdeasReponseDto> {
+  ): Promise<IdeasResponseDto> {
     return this.ideasService.updateIdea(id, body);
   }
 
   @Delete('/:id')
   deleteIdea(
     @Param('id', ParseUUIDPipe) id: number,
-  ): Promise<IdeasReponseDto> {
+  ): Promise<IdeasResponseDto> {
     return this.ideasService.deleteIdea(id);
   }
 }
