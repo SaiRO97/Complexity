@@ -42,9 +42,7 @@ export class IdeasController {
   @Delete('/:id')
   deleteIdea(
     @Param('id', ParseUUIDPipe) id: number,
-  ): Promise<{
-    deleted: boolean;
-  }> {
+  ): Promise<IdeasReponseDto> {
     return this.ideasService.deleteIdea(id);
   }
 }
