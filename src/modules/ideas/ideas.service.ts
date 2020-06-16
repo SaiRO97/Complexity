@@ -22,7 +22,7 @@ export class IdeasService {
   }
 
   async getIdea(id: number) {
-    const idea =  await this.ideasRepository.findOne({ where: { id } });
+    const idea = await this.ideasRepository.findOne({ where: { id } });
 
     if (!idea) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
@@ -32,12 +32,12 @@ export class IdeasService {
   }
 
   async updateIdea(id: number, body: Partial<IdeasCreateResponseDto>) {
-    const idea = await this.ideasRepository.findOne({where: {id} })
+    let idea = await this.ideasRepository.findOne({ where: { id } })
     if (!idea) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
-
     await this.ideasRepository.update({ id }, body);
+    idea = await this.ideasRepository.findOne({ where: { id } })
     return idea
   }
 
