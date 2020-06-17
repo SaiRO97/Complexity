@@ -23,4 +23,9 @@ export class UserEntity {
     this.password = await bcrypt.hash(this.password, 10)
   }
 
+  toResponseObject() {
+    const { id, username, createdAt } = this;
+    return { id,username,createdAt }
+  }
+
 }

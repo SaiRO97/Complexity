@@ -12,7 +12,7 @@ import { IdeasService } from './ideas.service';
 import { IdeasCreateResponseDto, IdeasResponseDto } from './ideas.interfaces';
 import { ValidationPipe } from '../../shared/validation/validation.pipe';
 
-@Controller('ideas')
+@Controller('api/ideas')
 export class IdeasController {
   private logger = new Logger();
   constructor(private ideasService: IdeasService) {}
