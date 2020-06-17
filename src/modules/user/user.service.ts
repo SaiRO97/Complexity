@@ -28,11 +28,23 @@ export class UserService {
   }
 
   async login(body: UserLoginResponseDto){
-
+    const {username, password} = body
+    const user = await this.userRepository.findOne({where: {username}})
+    if (!user || !(await user.comparePassword(password))) {
+      throw new HttpException('invalid username/password', HttpStatus.BAD_GATEWAY)
+    }
+    return user.toResponseObject(true)
   }
 
-  async register(body: UserRegisterResponseDto){
-
+  async register(body: UserLoginResponseDto){
+    const {username} = body
+    let user = await this.userRepository.findOne({where: {username}})
+    if(user){
+      throw new HttpException('user already exist', HttpStatus.UNAUTHORIZED)
+    }
+    user = await this.userRepository.create(body);
+    await this.userRepository.save(user)
+    return user.toResponseObject(true)
   }
 
 }

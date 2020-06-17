@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UsePipes } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserLoginResponseDto } from './user.interfaces';
+import { ValidationPipe } from '../../shared/validation/validation.pipe';
 
 @Controller()
 export class UserController {
@@ -17,13 +18,15 @@ export class UserController {
   }
 
   @Post('/login')
+  @UsePipes(new ValidationPipe())
   singIn(@Body() body: UserLoginResponseDto){
-    return this.userService.login(data)
+    return this.userService.login(body)
   }
 
   @Post('/register')
-  singUp(@Body() body){
-    return this.userService.register(data)
+  @UsePipes(new ValidationPipe())
+  singUp(@Body() body: UserLoginResponseDto){
+    return this.userService.register(body)
   }
 
 }
