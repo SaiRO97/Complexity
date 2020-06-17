@@ -7,12 +7,12 @@ import { ValidationPipe } from '../../shared/validation/validation.pipe';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get('/users')
+  @Get('api/users')
   getAllUsers(){
     return this.userService.getAll();
   }
 
-  @Get('/users/:id')
+  @Get('api/users/:id')
   getUser(@Param('id', ParseUUIDPipe) id: number){
     return this.userService.getSingleUser(id)
   }
