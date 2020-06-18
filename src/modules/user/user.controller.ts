@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UserLoginResponseDto } from './user.interfaces';
 import { ValidationPipe } from '../../shared/validation/validation.pipe';
 import { AuthGuard } from '../../shared/auth.guard';
+import { User } from '../../decorators/user.decorator';
 
 @Controller()
 export class UserController {
@@ -10,7 +11,7 @@ export class UserController {
 
   @Get('api/users')
   @UseGuards(new AuthGuard())
-  getAllUsers(){
+  getAllUsers(@User() user){
     return this.userService.getAll();
   }
 
