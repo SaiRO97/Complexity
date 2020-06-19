@@ -6,11 +6,13 @@ import {
   Delete,
   Body,
   Param,
-  ParseUUIDPipe, UsePipes, Logger,
+  ParseUUIDPipe, UsePipes, Logger, UseGuards,
 } from '@nestjs/common';
 import { IdeasService } from './ideas.service';
 import { IdeasCreateResponseDto, IdeasResponseDto } from './ideas.interfaces';
 import { ValidationPipe } from '../../shared/validation/validation.pipe';
+import { AuthGuard } from '../../shared/auth.guard';
+import { User } from '../../decorators/user.decorator';
 
 @Controller('api/ideas')
 export class IdeasController {
@@ -23,10 +25,11 @@ export class IdeasController {
   }
 
   @Post()
+  @UseGuards(new AuthGuard())
   @UsePipes(new ValidationPipe())
-  createIdea(@Body() body: IdeasCreateResponseDto) {
+  createIdea(@User('id') user, @Body() body: IdeasCreateResponseDto) {
     this.logger.log(JSON.stringify(body))
-    return this.ideasService.createIdea(body);
+    return this.ideasService.createIdea(user, body);
   }
 
   @Get('/:id')
