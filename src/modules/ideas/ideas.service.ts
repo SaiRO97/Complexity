@@ -14,24 +14,23 @@ export class IdeasService {
     private userRepository: Repository<UserEntity>
   ) {}
 
+  toResponseAuthorObject (idea) {
+    return {
+      ...idea,
+      author: idea.author ? idea.author.toResponseObject() : null
+    }
+  }
+
   async getAll() {
     const ideas = await this.ideasRepository.find({ relations: ['author'] });
-    return ideas.map(idea => (
-      {
-        ...idea,
-        author: idea.author.toResponseObject()
-      }
-    ))
+    return ideas.map(idea => this.toResponseAuthorObject(idea))
   }
 
   async createIdea(userId: string, body: IdeasCreateResponseDto) {
     const user = await this.userRepository.findOne({ where: { id: userId }})
     const idea = await this.ideasRepository.create({...body, author: user });
     await this.ideasRepository.save(idea);
-    return {
-      ...idea,
-      author: idea.author.toResponseObject()
-    };
+    return this.toResponseAuthorObject(idea);
   }
 
   async getIdea(id: number) {
