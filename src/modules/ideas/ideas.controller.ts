@@ -27,7 +27,7 @@ export class IdeasController {
   @Post()
   @UseGuards(new AuthGuard())
   @UsePipes(new ValidationPipe())
-  createIdea(@User('id') user, @Body() body: IdeasCreateResponseDto) {
+  createIdea(@User('id') user, @Body() body: IdeasCreateResponseDto) : Promise<IdeasResponseDto> {
     this.logger.log(JSON.stringify(body))
     return this.ideasService.createIdea(user, body);
   }
