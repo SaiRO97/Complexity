@@ -12,7 +12,7 @@ export class UserService {
   ) {}
 
   async getAll() {
-    const users = await this.userRepository.find()
+    const users = await this.userRepository.find({ relations: ['ideas'] })
     if(!users){
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async getSingleUser(id: number){
-    const user = await this.userRepository.findOne({where: {id}});
+    const user = await this.userRepository.findOne({where: {id}, relations: ['ideas']});
     if(!user){
       throw new HttpException('User not found', HttpStatus.NOT_FOUND)
     }

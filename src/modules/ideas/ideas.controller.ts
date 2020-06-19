@@ -38,19 +38,23 @@ export class IdeasController {
   }
 
   @Put('/:id')
+  @UseGuards(new AuthGuard())
   @UsePipes(new ValidationPipe())
   updateIdea(
     @Param('id', ParseUUIDPipe) id: number,
+    @User('id') user,
     @Body() body: Partial<IdeasCreateResponseDto>,
   ): Promise<IdeasResponseDto> {
     this.logger.log(JSON.stringify(body))
-    return this.ideasService.updateIdea(id, body);
+    return this.ideasService.updateIdea(id, user, body);
   }
 
   @Delete('/:id')
+  @UseGuards(new AuthGuard())
   deleteIdea(
+    @User('id') user,
     @Param('id', ParseUUIDPipe) id: number,
   ): Promise<IdeasResponseDto> {
-    return this.ideasService.deleteIdea(id);
+    return this.ideasService.deleteIdea(user,id);
   }
 }

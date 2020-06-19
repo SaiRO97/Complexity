@@ -34,6 +34,9 @@ export class UserEntity {
     if(showToken){
       userData['token'] = token
     }
+    if(this.ideas){
+      userData['ideas'] = this.ideas
+    }
     return userData
   }
 
